@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход в аккаунт — Догоняй репетитор 🔥</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'SF Pro Display', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      overflow-x: hidden;
+    }
+
+    /* Матовая фиксированная шапка */
+    .header {
+      background-color: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(59, 130, 246, 0.12);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 75px;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      white-space: nowrap;
+    }
+
+    .logo-fire-svg {
+      width: 21px;
+      height: 25px;
+      margin: 0 1px 0 2px;
+      filter: drop-shadow(0 2px 6px rgba(59, 130, 246, 0.25));
+    }
+
+    .spacer { height: 75px; }
+
+    /* КОНТЕЙНЕР ФОРМЫ ВХОДА */
+    .auth-section {
+      min-height: calc(100vh - 75px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .auth-card {
+      background-color: #ffffff;
+      width: 100%;
+      max-width: 450px;
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.04);
+      border: 1px solid rgba(59, 130, 246, 0.08);
+    }
+
+    .auth-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 8px;
+      text-align: center;
+      letter-spacing: -0.5px;
+    }
+
+    .auth-title span {
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .auth-desc {
+      font-size: 14px;
+      color: #475569;
+      margin-bottom: 30px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15px;
+      color: #0f172a;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus {
+      border-color: #3b82f6;
+    }
+
+    .btn-auth {
+      width: 100%;
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      color: #ffffff;
+      border: none;
+      padding: 15px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 10px;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.2);
+    }
+
+    .btn-auth:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
+    }
+    .auth-footer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #475569;
+      text-align: center;
+    }
+
+    .auth-link {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .auth-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Наша фирменная матовая шапка -->
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="logo-container">
+        <span class="logo-text">Д</span>
+        <svg class="logo-fire-svg" viewBox="0 0 24 24" width="21" height="25">
+          <defs>
+            <linearGradient id="blue-fire-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#1e40af" />
+              <stop offset="100%" stop-color="#3b82f6" />
+            </linearGradient>
+          </defs>
+          <path fill="url(#blue-fire-gradient)" d="M12 23c4.97 0 9-4.03 9-9 0-3.6-2.1-6.7-5.17-8.15C16.34 7.6 16.5 9.3 15.4 10.6c-1.27 1.5-3.3 1.35-4.14-.15-.9-1.6-.33-4.4.9-5.95C10.15 4.14 8 6.82 8 10c0 .4.03.8.1 1.18C7.14 10.5 6 12.1 6 14c0 4.97 4.03 9 9 9z"/>
+        </svg>
+        <span class="logo-text">гоняй репетитор</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="spacer"></div>
+
+  <!-- Карточка входа -->
+  <section class="auth-section">
+    <div class="auth-card">
+      <h2 class="auth-title">Вход в <span>аккаунт</span></h2>
+      <p class="auth-desc">Введите свои данные, чтобы войти в личный кабинет</p>
+
+      <form action="главная_index.html">
+  <!-- Поле: Почта -->
+  <div class="form-group">
+    <label class="form-label">Имя</label>
+    <input type="login" class="form-input" id="login" placeholder="Имя" required>
+
+  <div class="form-group">
+    <label class="form-label">Фамилия</label>
+    <input type="user" class="form-input" id="user" placeholder="фамилия" required>
+  </div>
+  <!-- Поле: Пароль -->
+  <div class="form-group">
+    <label class="form-label">Пароль</label>
+    <input type="password" class="form-input" id="loginPassword" placeholder="Введите ваш пароль" required>
+  </div>
+
+  <button type="submit" class="btn-auth">Войти</button>
+</form>
+      <div class="auth-footer">
+        Ещё нет аккаунта? <a href="index3.html" class="auth-link">Зарегистрироваться</a>
+      </div>
+    </div>
+  </section>
+
+<script>
+  function handleLogin(event) {
+    event.preventDefault(); // Останавливаем стандартную перезагрузку
+
+    // Что ввёл пользователь сейчас (trim() убирает случайные пробелы в начале и конце)
+    const enteredName = document.getElementById('loginName').value.trim();
+    const enteredSurname = document.getElementById('loginSurname').value.trim();
+    const enteredPassword = document.getElementById('loginPassword').value.trim();
+
+    // Что сохранено в памяти браузера (при регистрации в index3.html)
+    const savedName = localStorage.getItem('student_name');
+    const savedSurname = localStorage.getItem('student_surname');
+    const savedPassword = localStorage.getItem('student_password');
+
+    // Проверяем, есть ли вообще такой аккаунт
+    if (!savedName || !savedSurname) {
+      alert('Такого аккаунта ещё нет! Сначала нужно зарегистрироваться.');
+      return;
+    }
+
+    // Сверяем имя, фамилию (независимо от заглавных букв) и пароль
+    if (
+      enteredName.toLowerCase() === savedName.toLowerCase() &&
+      enteredSurname.toLowerCase() === savedSurname.toLowerCase() &&
+      enteredPassword === savedPassword
+    ) {
+      window.location.href = 'главная_index.html'; // Всё верно — пускаем дальше
+    } else {
+      alert('Неверное имя, фамилия или пароль!');
+    }
+  }
+</script>
+
+</body>
+</html>

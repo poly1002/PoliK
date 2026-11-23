@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Добро пожаловать — Догоняй репетитор 🔥</title>
+
+  <style>
+    /* Базовые настройки стиля «Догоняй репетитор» */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'SF Pro Display', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      overflow-x: hidden;
+    }
+
+    /* Наша фиксированная премиальная шапка */
+    .header {
+      background-color: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(59, 130, 246, 0.12);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center; /* Центрируем логотип на этой странице */
+      height: 75px;
+    }
+
+    /* ЛОГОТИП С СИНЕ-ИНДИГО ПЕРЕЛИВОМ */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      transition: transform 0.3s ease;
+    }
+
+    .logo-container:hover {
+      transform: scale(1.02);
+    }
+
+    .logo-text {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      white-space: nowrap;
+    }
+
+    .logo-fire-svg {
+      width: 23px;
+      height: 27px;
+      margin: 0 1px 0 2px;
+      filter: drop-shadow(0 2px 6px rgba(59, 130, 246, 0.25));
+      animation: gentleBreathe 2s infinite ease-in-out;
+    }
+
+    @keyframes gentleBreathe {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.25)); }
+      50% { transform: scale(1.1) translateY(-1px); filter: drop-shadow(0 4px 12px rgba(59, 130, 246, 0.55)); }
+    }
+
+    .spacer { height: 75px; }
+
+    /* ЭКРАН ВЫБОРА РОЛИ */
+    .role-section {
+      min-height: calc(100vh - 75px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .role-title {
+      font-size: 36px;
+      font-weight: 800;
+      color: #0f172a;
+      text-align: center;
+      margin-bottom: 10px;
+      letter-spacing: -0.8px;
+    }
+
+    .role-title span {
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .role-subtitle {
+      font-size: 16px;
+      color: #475569;
+      text-align: center;
+      margin-bottom: 45px;
+      font-weight: 500;
+    }
+
+    /* Сетка для двух больших карточек */
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      width: 100%;
+      max-width: 760px;
+    }
+
+    /* Интерактивные 3D-карточки ролей */
+    .role-card {
+      background-color: #ffffff;
+      border-radius: 24px;
+      padding: 45px 30px;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 2px solid #e2e8f0;
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.02);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .role-card:hover {
+      border-color: #3b82f6;
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(59, 130, 246, 0.08);
+    }
+
+    /* Иконки внутри карточек */
+    .role-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(30, 64, 175, 0.1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      margin-bottom: 25px;
+      transition: transform 0.3s ease;
+    }
+
+    .role-card:hover .role-icon {
+      transform: scale(1.1);
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      color: #ffffff;
+    }
+
+    .role-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 12px;
+    }
+
+    .role-text-desc {
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    /* Адаптивность для мобильных телефонов */
+    @media (max-width: 640px) {
+      .role-grid {
+        grid-template-columns: 1fr; /* На смартфонах карточки встают одна под другую */
+        gap: 20px;
+      }
+      .role-title {
+        font-size: 28px;
+      }
+      .role-card {
+        padding: 35px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Наша единая матовая шапка -->
+  <header class="header">
+    <div class="container">
+      <a href="#" class="logo-container">
+        <span class="logo-text">Д</span>
+        <svg class="logo-fire-svg" viewBox="0 0 24 24">
+          <defs>
+            <linearGradient id="blue-fire-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#1e40af" />
+              <stop offset="100%" stop-color="#3b82f6" />
+            </linearGradient>
+          </defs>
+          <path fill="url(#blue-fire-gradient)" d="M12 23c4.97 0 9-4.03 9-9 0-3.6-2.1-6.7-5.17-8.15C16.34 7.6 16.5 9.3 15.4 10.6c-1.27 1.5-3.3 1.35-4.14-.15-.9-1.6-.33-4.4.9-5.95C10.15 4.14 8 6.82 8 10c0 .4.03.8.1 1.18C7.14 10.5 6 12.1 6 14c0 4.97 4.03 9 9 9z"/>
+        </svg>
+        <span class="logo-text">гоняй репетитор</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="spacer"></div>
+
+  <!-- Главный контент выбора -->
+  <section class="role-section">
+    <h1 class="role-title">Добро пожаловать в <span>Догоняй</span></h1>
+    <p class="role-subtitle">Выберите, как вы хотите продолжить работу с платформой</p>
+
+    <div class="role-grid">
+      
+      <!-- Карточка ученика -> Ведёт на опрос index1.html -->
+      <a href="index3.html" class="role-card">
+        <div class="role-icon">🎓</div>
+        <h3 class="role-name">Я ученик</h3>
+        <p class="role-text-desc">Заполнить анкету сложных тем, выбрать предметы и догнать школьную программу в один клик.</p>
+      </a>
+
+      <!-- Карточка учителя -> Ведёт на новую страницу index2.html -->
+      <a href="index5.html" class="role-card">
+        <div class="role-icon">💼</div>
+        <h3 class="role-name">Я учитель</h3>
+        <p class="role-text-desc">Посмотреть базу оставленных заявок от учеников, выбрать сложные темы и начать преподавать.</p>
+      </a>
+
+    </div>
+  </section>
+
+</body>
+</html>

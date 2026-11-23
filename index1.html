@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Онлайн-школа Догоняй 🔥</title>
+
+  <style>
+    /* Базовые настройки для взрослого и дорогого дизайна */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'SF Pro Display', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #f8fafc; /* Светлый благородный фон */
+      color: #0f172a;
+      overflow-x: hidden;
+    }
+
+    /* Матовая минималистичная шапка сайта */
+    .header {
+      background-color: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(59, 130, 246, 0.12);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between; /* Бургер слева, лого по центру, вход справа */
+      height: 75px;
+    }
+
+    /* 🖤 ЧЕРНАЯ КРУГЛАЯ КНОПКА-БУРГЕР СЛЕВА 🖤 */
+    .burger {
+      display: flex;
+      background-color: #0f172a;
+      border: none;
+      cursor: pointer;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      z-index: 2000;
+      padding: 0;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .burger:hover {
+      background-color: #000000;
+      transform: scale(1.05);
+    }
+
+    .burger span {
+      display: block;
+      height: 2.5px;
+      width: 18px;
+      background-color: #ffffff;                                                                       
+      border-radius: 2px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Анимация превращения полосочек в крестик */
+    .burger.active span:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg);
+    }
+
+    .burger.active span:nth-child(2) {
+      opacity: 0;
+      transform: translateX(-5px);
+    }
+
+    .burger.active span:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
+    }
+
+    /* 💎 ЛОГОТИП С ВЗРОСЛЫМ СИНЕ-ИНДИГО ПЕРЕЛИВОМ ПО ЦЕНТРУ 💎 */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: transform 0.3s ease;
+    }
+
+    .logo-container:hover {
+      transform: translateX(-50%) scale(1.02);
+    }
+
+    .logo-text {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Векторный синий огонек-буква «О» с анимацией дыхания */
+    .logo-fire-svg {
+      width: 23px;
+      height: 27px;
+      margin: 0 1px 0 2px;
+      filter: drop-shadow(0 2px 6px rgba(59, 130, 246, 0.25));
+      animation: gentleBreathe 2s infinite ease-in-out;
+    }
+
+    @keyframes gentleBreathe {
+      0%, 100% { 
+        transform: scale(1);
+        filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.25)); 
+      }
+      50% { 
+        transform: scale(1.1) translateY(-1px);
+        filter: drop-shadow(0 4px 12px rgba(59, 130, 246, 0.55)); 
+      }
+    }
+
+    /* ✨ ГАСНУЩАЯ И РАЗГОРАЮЩАЯСЯ СИНЯЯ КНОПКА ВОЙТИ (СПРАВА) ✨ */
+    .btn-login-header {
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      color: #ffffff !important;
+      text-align: center;
+      padding: 9px 22px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      z-index: 1001;
+      animation: glowingBreathe 2.5s infinite ease-in-out;
+    }
+
+    .btn-login-header:hover {
+      transform: translateY(-1px);
+      animation-play-state: paused;
+      box-shadow: 0 4px 18px rgba(59, 130, 246, 0.5);
+    }
+
+    @keyframes glowingBreathe {
+      0%, 100% { box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2); opacity: 0.88; }
+      50% { box-shadow: 0 4px 18px rgba(59, 130, 246, 0.5); opacity: 1; }
+    }
+
+    /* ЗАТЕМНЕНИЕ ЗАДНЕГО ФОНА ПРИ ОТКРЫТИИ ОКНА */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(15, 23, 42, 0.12);
+      backdrop-filter: blur(8px);
+      z-index: 1400;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .overlay.active { 
+      opacity: 1; 
+      pointer-events: auto; 
+    }
+
+    /* ВЫДВИЖНОЕ ОКНО СЛЕВА */
+    .side-drawer {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 85%;
+      max-width: 320px;
+      height: 100vh;
+      background-color: #ffffff;
+      z-index: 1500;
+      padding: 100px 30px 40px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 35px;
+      box-shadow: 10px 0 40px rgba(15, 23, 42, 0.06);
+      transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      border-right: 1px solid rgba(59, 130, 246, 0.08);
+    }
+
+    .side-drawer.active { 
+      left: 0; 
+    }
+
+    /* Стили для идеального крестика в углу шторки */
+    .drawer-close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 34px;
+      color: #475569;
+      cursor: pointer;
+      line-height: 1;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    
+    .drawer-close-btn:hover {
+      background-color: #f1f5f9;
+      color: #3b82f6;
+    }
+
+    /* Заглушка под фиксированную шапку */
+    .spacer { 
+      height: 75px; 
+    }
+    /* Адаптивность для телефонов */
+    @media (max-width: 768px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 5px;
+      }
+      .hero-content {
+        align-items: center;
+        order: 2; /* Текст падает вниз */
+      }
+      .hero-title {
+        font-size: 32px;
+      }
+      .hero-subtitle {
+        font-size: 16px;
+        margin-bottom: 25px;
+      }
+      .btn-hero {
+        width: 100%;
+        max-width: 300px;
+      }
+      .hero-graphics {
+        order: 1; /* Графика встает наверх */
+        margin-bottom: 20px;
+      }
+      .energy-sphere {
+        width: 200px;
+        height: 200px;
+      }
+    }
+/* Убираем лишний верхний отступ у страницы и делаем небольшой отступ снизу, 
+   чтобы при прокрутке до конца текст не прятался за панелью */
+body {
+  padding-top: 85px !important;    /* Оставляем место только для твоей шапки «Догоняй» */
+  padding-bottom: 85px !important; /* Место в самом конце страницы для нижней панели */
+  margin: 0 !important;
+}
+
+.polik-bottom-bar {
+  position: fixed !important;
+  top: calc(100vh - 75px) !important; /* Принудительно опускаем в самый низ экрана! */
+  bottom: auto !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 95% !important;
+  max-width: 650px !important;
+  height: 56px !important;
+  background-color: #ffffff !important;
+  display: flex !important;
+  justify-content: space-around !important;
+  align-items: center !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12) !important;
+  border-radius: 18px !important;
+  z-index: 99999 !important;
+  box-sizing: border-box !important;
+  padding: 4px 8px !important;
+  margin: 0 !important;
+}
+
+/* Отдельная кнопка вкладки */
+.polik-tab {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  color: #6b7280 !important;
+  flex: 1 !important;
+  height: 100% !important;
+  border-radius: 14px !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Иконка */
+.polik-icon {
+  font-size: 17px !important;
+  line-height: 1.1 !important;
+  margin-bottom: 2px !important;
+}
+
+/* Подпись */
+.polik-label {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  font-family: sans-serif !important;
+}
+
+/* Подсветка активной вкладки */
+.polik-tab.active {
+  background-color: #eff6ff !important;
+  color: #2563eb !important;
+}
+
+
+  </style>
+</head>
+<body>
+
+  <!-- Шапка -->
+  <header class="header">
+    <div class="container">
+      
+      <!-- Чёрный круглый бургер -->
+      <button class="burger" id="burgerBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- Логотип: Огонек заменяет букву "О" -->
+      <a href="#" class="logo-container">
+        <span class="logo-text">Д</span>
+        <svg class="logo-fire-svg" viewBox="0 0 24 24">
+          <defs>
+            <linearGradient id="blue-fire-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#1e40af" />
+              <stop offset="100%" stop-color="#3b82f6" />
+            </linearGradient>
+          </defs>
+          <path fill="url(#blue-fire-gradient)" d="M12 23c4.97 0 9-4.03 9-9 0-3.6-2.1-6.7-5.17-8.15C16.34 7.6 16.5 9.3 15.4 10.6c-1.27 1.5-3.3 1.35-4.14-.15-.9-1.6-.33-4.4.9-5.95C10.15 4.14 8 6.82 8 10c0 .4.03.8.1 1.18C7.14 10.5 6 12.1 6 14c0 4.97 4.03 9 9 9z"/>
+        </svg>
+        <span class="logo-text">гоняй</span>
+      </a>
+
+
+  <!-- Затемнение фона -->
+  <div class="overlay" id="menuOverlay"></div>
+
+  <!-- Полностью пустая шторка меню СЛЕВА с новым крестиком закрытия -->
+  <div class="side-drawer" id="sideDrawer">
+    <button class="drawer-close-btn" id="closeDrawerBtn">&times;</button>
+  </div>
+
+
+
+
+  <!-- Скрипт оживления интерфейса -->
+  <script>
+    const burgerBtn = document.getElementById('burgerBtn');
+    const sideDrawer = document.getElementById('sideDrawer');
+    const menuOverlay = document.getElementById('menuOverlay');
+    const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+
+    function toggleMenu() {
+      burgerBtn.classList.toggle('active');
+      sideDrawer.classList.toggle('active');
+      menuOverlay.classList.toggle('active');
+    }
+
+    // Открытие/закрытие по клику на бургер
+    burgerBtn.addEventListener('click', toggleMenu);
+    
+    // Закрытие по клику на темный фон-оверлей
+    menuOverlay.addEventListener('click', toggleMenu);
+    
+    // Закрытие по клику на крестик внутри шторки
+    closeDrawerBtn.addEventListener('click', toggleMenu);
+   
+  const cards = document.querySelectorAll('.card-box');
+  const saveBtn = document.getElementById('save-subjects-btn');
+</script>
+  <div class="polik-bottom-bar">
+  <a href="index1.html" class="polik-tab active">
+    <span class="polik-icon">🏠</span>
+    <span class="polik-label">Главная</span>
+  </a>
+
+  <a href="index2.html" class="polik-tab">
+    <span class="polik-icon">💡</span>
+    <span class="polik-label">Лайфхаки</span>
+  </a>
+
+  <a href="index7.html" class="polik-tab">
+    <span class="polik-icon">👥</span>
+    <span class="polik-label">Класс</span>
+  </a>
+
+  <a href="index4.html" class="polik-tab">
+    <span class="polik-icon">📝</span>
+    <span class="polik-label">Задания</span>
+  </a>
+
+  <a href="index5.html" class="polik-tab">
+    <span class="polik-icon">⭐</span>
+    <span class="polik-label">Ещё</span>
+  </a>
+</div>
+
+
+  
+</body>
+</html>
+
+
