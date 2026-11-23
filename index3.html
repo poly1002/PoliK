@@ -260,6 +260,6 @@ let allStudents = JSON.parse(localStorage.getItem('dogonyai_all_students')) || [
 allStudents.push(`${regName.trim()} ${regSurname.trim()}`);
 localStorage.setItem('dogonyai_all_students', JSON.stringify(allStudents));
 </script>
-
+<script type="module" src="firebase-sync.js"></script>
 </body>
 </html>
