@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Догоняй — Кабинет учителя</title>
+  <style>
+    body { margin: 0; padding: 80px 15px 95px 15px; background: #f3f4f6; font-family: sans-serif; color: #1f2937; }
+    .top-bar { position: fixed; top: 0; left: 0; width: 100%; height: 65px; background: #fff; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); box-sizing: border-box; z-index: 1000; }
+    .logo { font-size: 22px; font-weight: 800; color: #2563eb; }
+    .role-tag { background: #eff6ff; color: #2563eb; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 12px; }
+    .container { max-width: 650px; margin: 0 auto; }
+    .welcome-card { background: linear-gradient(135deg, #2563eb, #3b82f6); color: #fff; border-radius: 24px; padding: 25px; box-shadow: 0 10px 25px rgba(37,99,235,0.2); margin-bottom: 20px; }
+    .welcome-card h1 { margin: 0 0 8px 0; font-size: 22px; }
+    .welcome-card p { margin: 0; font-size: 14px; opacity: 0.9; }
+    .create-class-btn { width: 100%; padding: 16px; background: #fff; color: #2563eb; border: 2px dashed #93c5fd; border-radius: 18px; font-size: 16px; font-weight: 700; cursor: pointer; margin-bottom: 20px; }
+    .new-class-form { display: none; background: #fff; padding: 20px; border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); margin-bottom: 20px; }
+    .new-class-form.open { display: block; }
+    .new-class-form input, .new-class-form select { width: 100%; padding: 12px 14px; margin-bottom: 12px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 15px; box-sizing: border-box; outline: none; }
+    .save-class-btn { width: 100%; padding: 13px; background: #2563eb; color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: bold; cursor: pointer; }
+    .section-title { font-size: 18px; font-weight: 700; margin: 0 0 12px 0; }
+    .class-card { background: #fff; border-radius: 20px; padding: 18px 20px; margin-bottom: 14px; box-shadow: 0 4px 14px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; gap: 12px; cursor: pointer; }
+    .class-info { flex: 1; }
+    .class-info h3 { margin: 0 0 5px 0; font-size: 18px; }
+    .class-info span { font-size: 13px; color: #6b7280; display: block; }
+    .students-count { font-size: 12px !important; color: #2563eb !important; font-weight: 600; margin-top: 4px; }
+    .class-actions { display: flex; align-items: center; gap: 8px; }
+    .copy-code-btn { background: #eff6ff; color: #2563eb; border: 1.5px solid #bfdbfe; padding: 8px 12px; border-radius: 12px; font-weight: 800; font-size: 13px; cursor: pointer; }
+    .delete-class-btn { width: 38px; height: 38px; border: none; border-radius: 12px; background: #fee2e2; color: #ef4444; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .empty-classes { text-align: center; color: #9ca3af; padding: 30px 15px; background: #fff; border-radius: 20px; font-size: 14px; }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.5); z-index: 10000; align-items: center; justify-content: center; padding: 15px; box-sizing: border-box; }
+    .modal-overlay.open { display: flex; }
+    .modal-box { background: #fff; width: 100%; max-width: 420px; border-radius: 24px; padding: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); max-height: 85vh; overflow-y: auto; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .modal-header h2 { margin: 0; font-size: 20px; }
+    .close-modal-btn { background: #f3f4f6; border: none; width: 34px; height: 34px; border-radius: 50%; font-size: 18px; cursor: pointer; }
+    .add-student-row { display: flex; gap: 8px; margin-bottom: 16px; }
+
+.add-student-row input { flex: 1; padding: 11px 12px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 14px; outline: none; }
+    .add-student-btn { padding: 0 16px; background: #2563eb; color: #fff; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
+    .modal-student-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #f9fafb; border-radius: 12px; margin-bottom: 8px; font-size: 14px; }
+    .confirm-actions { display: flex; gap: 10px; margin-top: 20px; }
+    .btn-cancel { flex: 1; padding: 12px; border: none; border-radius: 14px; background: #f3f4f6; color: #4b5563; font-weight: 700; font-size: 15px; cursor: pointer; }
+    .btn-danger { flex: 1; padding: 12px; border: none; border-radius: 14px; background: #ef4444; color: #fff; font-weight: 700; font-size: 15px; cursor: pointer; }
+    .copy-toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: #1f2937; color: #fff; padding: 10px 20px; border-radius: 14px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 20000; }
+    .copy-toast.show { opacity: 1; }
+    .polik-bottom-bar { position: fixed !important; top: calc(100vh - 75px) !important; left: 50% !important; transform: translateX(-50%) !important; width: 95% !important; max-width: 650px !important; height: 56px !important; background: #fff !important; display: flex !important; justify-content: space-around !important; align-items: center !important; box-shadow: 0 6px 20px rgba(0,0,0,0.12) !important; border-radius: 18px !important; z-index: 9999 !important; padding: 4px 8px !important; box-sizing: border-box !important; }
+    .polik-tab { display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; text-decoration: none !important; color: #6b7280 !important; flex: 1 !important; height: 100% !important; border-radius: 14px !important; }
+    .polik-icon { font-size: 17px !important; margin-bottom: 2px !important; }
+    .polik-label { font-size: 10px !important; font-weight: 600 !important; }
+    .polik-tab.active { background: #eff6ff !important; color: #2563eb !important; }
+    /* Логотип с анимированным синим огоньком */
+    .logo {
+      font-size: 23px;
+      font-weight: 800;
+      color: #111827;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-flame {
+      display: inline-block;
+      width: 18px;
+      height: 22px;
+      margin: 0 2px;
+      transform-origin: bottom center;
+      animation: flameFlicker 1.8s infinite alternate ease-in-out;
+    }
+
+    @keyframes flameFlicker {
+      0% {
+        transform: scale(1) rotate(-3deg);
+        filter: drop-shadow(0 0 4px rgba(37, 99, 235, 0.4));
+      }
+      50% {
+        transform: scale(1.08, 0.96) rotate(2deg);
+        filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.7));
+      }
+      100% {
+        transform: scale(0.97, 1.06) rotate(-2deg);
+        filter: drop-shadow(0 0 5px rgba(37, 99, 235, 0.5));
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="index.html" class="logo">
+      Д<svg class="logo-flame" viewBox="0 0 24 28" fill="none" xmlns="http://w3.org">
+        <path d="M12.5 1C12.5 1 19 6.5 19 13.5C19 18.5 15.8 22 12 22C8.2 22 5 18.5 5 13.5C5 10.5 6.8 7.5 8.5 6C8.5 6 8.2 9.5 10.5 10.5C10.5 10.5 9.5 5.5 12.5 1Z" fill="#2563eb"/>
+        <path d="M12 11C12 11 15 13.5 15 16.5C15 18.5 13.7 20 12 20C10.3 20 9 18.5 9 16.5C9 14.5 10.5 12.5 12 11Z" fill="#93c5fd"/>
+      </svg>гоняй
+    </a>
+    <div class="role-tag">👨‍🏫 Учитель</div>
+  </div>
+
+  <div class="container">
+    <div class="welcome-card">
+      <h1 id="teacherWelcome">Здравствуйте!</h1>
+      <p id="teacherMainSubj">Основной предмет: загрузка...</p>
+    </div>
+
+    <button class="create-class-btn" onclick="toggleClassForm()">+ Создать новый класс</button>
+
+    <div class="new-class-form" id="newClassForm">
+      <input type="text" id="newClassName" placeholder="Название класса (например, 8 «А»)">
+      <select id="newClassSubject">
+        <option value="Математика">📐 Математика</option>
+        <option value="Русский язык">✍️ Русский язык</option>
+        <option value="Английский язык">🇬🇧 Английский язык</option>
+        <option value="Физика">⚡ Физика</option>
+        <option value="Информатика">💻 Информатика</option>
+        <option value="Биология">🧬 Биология</option>
+        <option value="История">🏛️ История</option>
+        <option value="Другой предмет">📚 Другой предмет</option>
+      </select>
+      <button class="save-class-btn" onclick="createNewClass()">Создать класс и получить код</button>
+    </div>
+
+    <h2 class="section-title">Мои классы (нажми на класс, чтобы добавить учеников)</h2>
+    <div id="classesList"></div>
+  </div>
+
+  <!-- Красивое окно класса (для добавления учеников) -->
+  <div class="modal-overlay" id="classModal">
+    <div class="modal-box" style="overflow-x: hidden;">
+      <div class="modal-header">
+        <h2 id="modalClassTitle">Класс</h2>
+        <button class="close-modal-btn" onclick="closeClassModal()">✕</button>
+      </div>
+      
+      <p style="font-size: 13px; color: #6b7280; margin-top: 0;">Добавь ученика вручную:</p>
+      
+      <div class="add-student-row">
+        <input type="text" id="newStudentInput" placeholder="Имя и Фамилия ученика" oninput="hideStudentErr()" style="min-width: 0; width: 100%;">
+        <button class="add-student-btn" onclick="addStudentToClass()" style="flex-shrink: 0;">+ Добавить</button>
+      </div>
+
+      <div id="studentNotFoundMsg" style="display: none; color: #ef4444; background: #fee2e2; padding: 10px 12px; border-radius: 12px; font-size: 13px; margin-bottom: 12px;"></div>
+
+      <div id="modalStudentsList"></div>
+    </div>
+  </div>
+
+  <!-- Красивое окно подтверждения удаления класса -->
+  <div class="modal-overlay" id="deleteConfirmModal">
+    <div class="modal-box" style="text-align: center; max-width: 360px;">
+      <div style="font-size: 40px; margin-bottom: 10px;">🗑️</div>
+      <h2 style="margin: 0 0 8px 0; font-size: 20px;">Удалить класс?</h2>
+      <p id="deleteConfirmText" style="margin: 0; font-size: 14px; color: #6b7280; line-height: 1.4;"></p>
+      <div class="confirm-actions">
+        <button class="btn-cancel" onclick="closeDeleteModal()">Отмена</button>
+        <button class="btn-danger" onclick="confirmDeleteClass()">Удалить</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="copy-toast" id="copyToast">📋 Скопировано!</div>
+
+  <div class="polik-bottom-bar">
+    <a href="index6.html" class="polik-tab active"><span class="polik-icon">🏫</span><span class="polik-label">Кабинет</span></a>
+    <a href="index7.html" class="polik-tab"><span class="polik-icon">🛠️</span><span class="polik-label">Мастерская</span></a>
+    <a href="index8.html" class="polik-tab"><span class="polik-icon">👥</span><span class="polik-label">Ученики</span></a>
+    <a href="index.html" class="polik-tab"><span class="polik-icon">🚪</span><span class="polik-label">Выйти</span></a>
+  </div>
+  <script>
+    // Загружаем данные с защитой от пустых/старых значений
+    let teacherData = JSON.parse(localStorage.getItem('dogonyai_teacher')) || {};
+    if (!teacherData.name) teacherData.name = 'Полина';
+    if (!teacherData.patronymic) teacherData.patronymic = 'Сергеевна';
+    if (!teacherData.mainSubject) teacherData.mainSubject = 'Математика';
+    if (!Array.isArray(teacherData.classes)) teacherData.classes = [];
+
+    let currentOpenedClassIndex = null;
+    let classIndexToDelete = null;
+
+    document.getElementById('teacherWelcome').textContent = `Здравствуйте, ${teacherData.name} ${teacherData.patronymic}!`;
+    document.getElementById('teacherMainSubj').textContent = `Основной предмет: ${teacherData.mainSubject}`;
+    document.getElementById('newClassSubject').value = teacherData.mainSubject;
+
+    function toggleClassForm() {
+      document.getElementById('newClassForm').classList.toggle('open');
+    }
+
+    function createNewClass() {
+      const className = document.getElementById('newClassName').value.trim();
+      const classSubject = document.getElementById('newClassSubject').value;
+
+      if (!className) {
+        alert('Введи название класса!');
+        return;
+      }
+
+      const code = 'DOG-' + Math.floor(100 + Math.random() * 900);
+
+      teacherData.classes.push({
+        name: className,
+        subject: classSubject,
+        code: code,
+        students: []
+      });
+
+      saveData();
+      document.getElementById('newClassName').value = '';
+      document.getElementById('newClassForm').classList.remove('open');
+      renderClasses();
+    }
+
+    function copyClassCode(event, code) {
+      event.stopPropagation();
+      navigator.clipboard.writeText(code).then(() => {
+        const toast = document.getElementById('copyToast');
+        toast.textContent = '📋  Скопировано!';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+      });
+    }
+
+    function openDeleteModal(event, index) {
+      event.stopPropagation();
+      classIndexToDelete = index;
+      const cls = teacherData.classes[index];
+      document.getElementById('deleteConfirmText').textContent = 
+        `Точно удалить класс «${cls.name}»? Все ученики внутри него тоже удалятся.`;
+      document.getElementById('deleteConfirmModal').classList.add('open');
+    }
+
+    function closeDeleteModal() {
+      classIndexToDelete = null;
+      document.getElementById('deleteConfirmModal').classList.remove('open');
+    }
+
+    function confirmDeleteClass() {
+      if (classIndexToDelete !== null) {
+        teacherData.classes.splice(classIndexToDelete, 1);
+        saveData();
+        renderClasses();
+      }
+      closeDeleteModal();
+    }
+
+    function openClassModal(index) {
+      currentOpenedClassIndex = index;
+      const cls = teacherData.classes[index];
+      if (!Array.isArray(cls.students)) cls.students = [];
+
+      document.getElementById('modalClassTitle').textContent = `Класс ${cls.name} (${cls.subject})`;
+      document.getElementById('classModal').classList.add('open');
+      renderModalStudents();
+    }
+
+    function closeClassModal() {
+      document.getElementById('classModal').classList.remove('open');
+      renderClasses();
+    }
+
+    function addStudentToClass() {
+      const input = document.getElementById('newStudentInput');
+      const errBox = document.getElementById('studentNotFoundMsg');
+      const enteredFullName = input.value.trim();
+
+      if (!enteredFullName) return;
+
+      // 1. Загружаем список всех зарегистрированных учеников
+      let allStudents = JSON.parse(localStorage.getItem('dogonyai_all_students')) || [];
+
+      // 2. Подхватываем ученика из твоей старой регистрации (student_name + student_surname), если он там есть
+      const oldName = localStorage.getItem('student_name');
+      const oldSurname = localStorage.getItem('student_surname');
+      if (oldName && oldSurname) {
+        const oldFull = `${oldName.trim()} ${oldSurname.trim()}`;
+        if (!allStudents.some(s => s.toLowerCase() === oldFull.toLowerCase())) {
+          allStudents.push(oldFull);
+        }
+      }
+
+      // 3. Проверяем, есть ли такой ученик в базе (независимо от заглавных букв)
+      const isRegistered = allStudents.some(
+        student => student.toLowerCase() === enteredFullName.toLowerCase()
+      );
+
+      if (!isRegistered) {
+        errBox.textContent = '❌ Такого ученика нет в базе! Сначала он должен зарегистрироваться на сайте.';
+        errBox.style.display = 'block';
+        return;
+      }
+
+      // Если ученик найден — прячем ошибку и добавляем его в класс!
+      errBox.style.display = 'none';
+      teacherData.classes[currentOpenedClassIndex].students.push({
+        name: enteredFullName,
+        score: 'Нет оценок'
+      });
+
+      saveData();
+      input.value = '';
+      renderModalStudents();
+    }
+
+    function removeStudentFromClass(studentIdx) {
+      teacherData.classes[currentOpenedClassIndex].students.splice(studentIdx, 1);
+      saveData();
+      renderModalStudents();
+    }
+
+    function renderModalStudents() {
+      const listEl = document.getElementById('modalStudentsList');
+      const students = teacherData.classes[currentOpenedClassIndex].students || [];
+
+listEl.innerHTML = '';
+
+      if (students.length === 0) {
+        listEl.innerHTML = '<p style="text-align:center; color:#9ca3af; font-size:13px;">В этом классе пока нет учеников</p>';
+        return;
+      }
+
+      students.forEach((st, idx) => {
+        listEl.innerHTML += `
+          <div class="modal-student-item">
+            <span>👤  ${st.name}</span>
+            <button onclick="removeStudentFromClass(${idx})" style="border:none; background:none; color:#ef4444; cursor:pointer;">✕</button>
+          </div>
+        `;
+      });
+    }
+
+    function saveData() {
+      localStorage.setItem('dogonyai_teacher', JSON.stringify(teacherData));
+    }
+
+    function renderClasses() {
+      const listEl = document.getElementById('classesList');
+      listEl.innerHTML = '';
+
+      if (!teacherData.classes || teacherData.classes.length === 0) {
+        listEl.innerHTML = '<div class="empty-classes">У тебя пока нет созданных классов.<br>Нажми кнопку выше, чтобы создать первый класс!</div>';
+        return;
+      }
+
+      teacherData.classes.forEach((cls, index) => {
+        const count = cls.students ? cls.students.length : 0;
+        listEl.innerHTML += `
+          <div class="class-card" onclick="openClassModal(${index})">
+            <div class="class-info">
+              <h3>${cls.name}</h3>
+              <span>Предмет: ${cls.subject}</span>
+              <span class="students-count">👥  Учеников: ${count}</span>
+            </div>
+            <div class="class-actions">
+              <button class="copy-code-btn" onclick="copyClassCode(event, '${cls.code}')">📋  ${cls.code}</button>
+              <button class="delete-class-btn" onclick="openDeleteModal(event, ${index})">🗑️ </button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    renderClasses();
+  </script>
+
+  <!-- СЮДА ВСТАВЬ СВОЙ СКРИПТ ОГОНЬКА -->
+
+</body>
+</html>
+
+
+
+
+
+

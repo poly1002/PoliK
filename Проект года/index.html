@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Онлайн-школа Догоняй 🔥</title>
+
+  <style>
+    /* Базовые настройки для взрослого и дорогого дизайна */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'SF Pro Display', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #f8fafc; /* Светлый благородный фон */
+      color: #0f172a;
+      overflow-x: hidden;
+    }
+
+    /* Матовая минималистичная шапка сайта */
+    .header {
+      background-color: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(59, 130, 246, 0.12);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between; /* Бургер слева, лого по центру, вход справа */
+      height: 75px;
+    }
+
+    /* 🖤 ЧЕРНАЯ КРУГЛАЯ КНОПКА-БУРГЕР СЛЕВА 🖤 */
+    .burger {
+      display: flex;
+      background-color: #0f172a;
+      border: none;
+      cursor: pointer;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      z-index: 2000;
+      padding: 0;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .burger:hover {
+      background-color: #000000;
+      transform: scale(1.05);
+    }
+
+    .burger span {
+      display: block;
+      height: 2.5px;
+      width: 18px;
+      background-color: #ffffff;
+      border-radius: 2px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Анимация превращения полосочек в крестик */
+    .burger.active span:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg);
+    }
+
+    .burger.active span:nth-child(2) {
+      opacity: 0;
+      transform: translateX(-5px);
+    }
+
+    .burger.active span:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
+    }
+
+    /* 💎 ЛОГОТИП С ВЗРОСЛЫМ СИНЕ-ИНДИГО ПЕРЕЛИВОМ ПО ЦЕНТРУ 💎 */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: transform 0.3s ease;
+    }
+
+    .logo-container:hover {
+      transform: translateX(-50%) scale(1.02);
+    }
+
+    .logo-text {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Векторный синий огонек-буква «О» с анимацией дыхания */
+    .logo-fire-svg {
+      width: 23px;
+      height: 27px;
+      margin: 0 1px 0 2px;
+      filter: drop-shadow(0 2px 6px rgba(59, 130, 246, 0.25));
+      animation: gentleBreathe 2s infinite ease-in-out;
+    }
+
+    @keyframes gentleBreathe {
+      0%, 100% { 
+        transform: scale(1);
+        filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.25)); 
+      }
+      50% { 
+        transform: scale(1.1) translateY(-1px);
+        filter: drop-shadow(0 4px 12px rgba(59, 130, 246, 0.55)); 
+      }
+    }
+
+    /* ✨ ГАСНУЩАЯ И РАЗГОРАЮЩАЯСЯ СИНЯЯ КНОПКА ВОЙТИ (СПРАВА) ✨ */
+    .btn-login-header {
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      color: #ffffff !important;
+      text-align: center;
+      padding: 9px 22px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      z-index: 1001;
+      animation: glowingBreathe 2.5s infinite ease-in-out;
+    }
+
+    .btn-login-header:hover {
+      transform: translateY(-1px);
+      animation-play-state: paused;
+      box-shadow: 0 4px 18px rgba(59, 130, 246, 0.5);
+    }
+
+    @keyframes glowingBreathe {
+      0%, 100% { box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2); opacity: 0.88; }
+      50% { box-shadow: 0 4px 18px rgba(59, 130, 246, 0.5); opacity: 1; }
+    }
+
+    /* ЗАТЕМНЕНИЕ ЗАДНЕГО ФОНА ПРИ ОТКРЫТИИ ОКНА */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(15, 23, 42, 0.12);
+      backdrop-filter: blur(8px);
+      z-index: 1400;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .overlay.active { 
+      opacity: 1; 
+      pointer-events: auto; 
+    }
+
+    /* ВЫДВИЖНОЕ ОКНО СЛЕВА */
+    .side-drawer {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 85%;
+      max-width: 320px;
+      height: 100vh;
+      background-color: #ffffff;
+      z-index: 1500;
+      padding: 100px 30px 40px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 35px;
+      box-shadow: 10px 0 40px rgba(15, 23, 42, 0.06);
+      transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      border-right: 1px solid rgba(59, 130, 246, 0.08);
+    }
+
+    .side-drawer.active { 
+      left: 0; 
+    }
+
+    /* Стили для идеального крестика в углу шторки */
+    .drawer-close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 34px;
+      color: #475569;
+      cursor: pointer;
+      line-height: 1;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    
+    .drawer-close-btn:hover {
+      background-color: #f1f5f9;
+      color: #3b82f6;
+    }
+
+    /* Заглушка под фиксированную шапку */
+    .spacer { 
+      height: 75px; 
+    }
+    /* 🚀 ГЛАВНЫЙ БЛОК (HERO SECTION) 🚀 */
+    .hero {
+      min-height: calc(100vh - 75px);
+      display: flex;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .hero-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 40px;
+    }
+
+    /* Левая текстовая часть баннера */
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .hero-title {
+      font-size: 48px;
+      font-weight: 800;
+      line-height: 1.15;
+      color: #0f172a;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 35px;
+      font-weight: 500;
+    }
+
+    /* Интерактивная дышащая кнопка на баннере */
+    .btn-hero {
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 700;
+      padding: 16px 38px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: inline-block;
+      animation: heroButtonPulse 3s infinite ease-in-out;
+    }
+
+    .btn-hero:hover {
+      transform: translateY(-2px);
+      animation-play-state: paused;
+      box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+    }
+
+    @keyframes heroButtonPulse {
+      0%, 100% { box-shadow: 0 4px 14px rgba(59, 130, 246, 0.15); opacity: 0.92; }
+      50% { box-shadow: 0 8px 28px rgba(59, 130, 246, 0.4); opacity: 1; }
+    }
+
+    /* Правая графическая часть: Синяя сфера энергии */
+    .hero-graphics {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .energy-sphere {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(59,130,246,0.8) 0%, rgba(30,64,175,0.4) 60%, rgba(255,255,255,0) 100%);
+      border-radius: 50%;
+      filter: blur(10px);
+      animation: sphereBreathe 4s infinite ease-in-out;
+      position: relative;
+    }
+
+    .energy-sphere::before {
+      content: '';
+      position: absolute;
+      top: 25%;
+      left: 25%;
+      width: 50%;
+      height: 50%;
+      background: radial-gradient(circle, #ffffff 0%, rgba(59,130,246,1) 70%);
+      border-radius: 50%;
+      box-shadow: 0 0 40px rgba(59, 130, 246, 0.8);
+    }
+
+    @keyframes sphereBreathe {
+      0%, 100% { transform: scale(0.9); opacity: 0.7; filter: blur(15px); }
+      50% { transform: scale(1.1); opacity: 1; filter: blur(5px); }
+    }
+
+    /* Адаптивность для телефонов */
+    @media (max-width: 768px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 5px;
+      }
+      .hero-content {
+        align-items: center;
+        order: 2; /* Текст падает вниз */
+      }
+      .hero-title {
+        font-size: 32px;
+      }
+      .hero-subtitle {
+        font-size: 16px;
+        margin-bottom: 25px;
+      }
+      .btn-hero {
+        width: 100%;
+        max-width: 300px;
+      }
+      .hero-graphics {
+        order: 1; /* Графика встает наверх */
+        margin-bottom: 20px;
+      }
+      .energy-sphere {
+        width: 200px;
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Шапка -->
+  <header class="header">
+    <div class="container">
+      
+      <!-- Чёрный круглый бургер -->
+      <button class="burger" id="burgerBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- Логотип: Огонек заменяет букву "О" -->
+      <a href="#" class="logo-container">
+        <span class="logo-text">Д</span>
+        <svg class="logo-fire-svg" viewBox="0 0 24 24">
+          <defs>
+            <linearGradient id="blue-fire-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#1e40af" />
+              <stop offset="100%" stop-color="#3b82f6" />
+            </linearGradient>
+          </defs>
+          <path fill="url(#blue-fire-gradient)" d="M12 23c4.97 0 9-4.03 9-9 0-3.6-2.1-6.7-5.17-8.15C16.34 7.6 16.5 9.3 15.4 10.6c-1.27 1.5-3.3 1.35-4.14-.15-.9-1.6-.33-4.4.9-5.95C10.15 4.14 8 6.82 8 10c0 .4.03.8.1 1.18C7.14 10.5 6 12.1 6 14c0 4.97 4.03 9 9 9z"/>
+        </svg>
+        <span class="logo-text">гоняй</span>
+      </a>
+
+      <a href="index4.html" class="btn-login-header">Войти</a>
+    </div>
+  </header>
+
+  <!-- Затемнение фона -->
+  <div class="overlay" id="menuOverlay"></div>
+
+  <!-- Полностью пустая шторка меню СЛЕВА с новым крестиком закрытия -->
+  <div class="side-drawer" id="sideDrawer">
+    <button class="drawer-close-btn" id="closeDrawerBtn">&times;</button>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- Главный баннер страницы -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <h1 class="hero-title">Онлайн-репетитор <br>нового поколения <span>Догоняй</span></h1>
+        <p class="hero-subtitle">Вместе достигаем ваших целей: от детального разбора сложных тем до полной ликвидации базы ошибок в один клик.</p>
+        <a href="index2.html" class="btn-hero">Подобрать занятия</a>
+      </div>
+
+      <div class="hero-graphics">
+        <div class="energy-sphere"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Скрипт оживления интерфейса -->
+  <script>
+    const burgerBtn = document.getElementById('burgerBtn');
+    const sideDrawer = document.getElementById('sideDrawer');
+    const menuOverlay = document.getElementById('menuOverlay');
+    const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+
+    function toggleMenu() {
+      burgerBtn.classList.toggle('active');
+      sideDrawer.classList.toggle('active');
+      menuOverlay.classList.toggle('active');
+    }
+
+    // Открытие/закрытие по клику на бургер
+    burgerBtn.addEventListener('click', toggleMenu);
+    
+    // Закрытие по клику на темный фон-оверлей
+    menuOverlay.addEventListener('click', toggleMenu);
+    
+    // Закрытие по клику на крестик внутри шторки
+    closeDrawerBtn.addEventListener('click', toggleMenu);
+  </script>
+
+</body>
+</html>
+
+

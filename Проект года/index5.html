@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Догоняй — Регистрация учителя</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<style>
+    .teacher-auth-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 15px;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+.teacher-card {
+  background-color: #ffffff;
+  max-width: 440px;
+  width: 100%;
+  padding: 30px 25px;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+
+.teacher-badge {
+  display: inline-block;
+  background-color: #eff6ff;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.teacher-card h2 {
+  margin: 0 0 8px 0;
+  font-size: 22px;
+  color: #1f2937;
+}
+
+.teacher-subtitle {
+  margin: 0 0 22px 0;
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+.input-group {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 13px 15px;
+  border: 2px solid #e5e7eb;
+  border-radius: 14px;
+  font-size: 15px;
+  outline: none;
+  background-color: #f9fafb;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: #2563eb;
+  background-color: #ffffff;
+}
+
+.teacher-submit-btn {
+  width: 100%;
+  padding: 15px;
+  margin-top: 8px;
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.teacher-submit-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.teacher-msg {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
+}
+/* Логотип с анимированным синим огоньком */
+    .logo {
+      font-size: 23px;
+      font-weight: 800;
+      color: #111827;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-flame {
+      display: inline-block;
+      width: 18px;
+      height: 22px;
+      margin: 0 2px;
+      transform-origin: bottom center;
+      animation: flameFlicker 1.8s infinite alternate ease-in-out;
+    }
+
+    @keyframes flameFlicker {
+      0% {
+        transform: scale(1) rotate(-3deg);
+        filter: drop-shadow(0 0 4px rgba(37, 99, 235, 0.4));
+      }
+      50% {
+        transform: scale(1.08, 0.96) rotate(2deg);
+        filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.7));
+      }
+      100% {
+        transform: scale(0.97, 1.06) rotate(-2deg);
+        filter: drop-shadow(0 0 5px rgba(37, 99, 235, 0.5));
+      }
+    }
+</style>
+<body>
+
+  <section class="teacher-auth-section">
+    <div class="teacher-card">
+      <div class="teacher-badge">👨‍🏫 Кабинет преподавателя</div>
+      <h2>Регистрация учителя</h2>
+      <p class="teacher-subtitle">Заполни ФИО и основной предмет, чтобы открыть свою мастерскую</p>
+
+      <form id="teacherRegForm" onsubmit="handleTeacherReg(event)">
+        
+        <div class="input-group">
+          <label>Фамилия</label>
+          <input type="text" id="teacherSurname" placeholder="Например, Иванова" required>
+        </div>
+
+        <div class="input-group">
+          <label>Имя</label>
+          <input type="text" id="teacherName" placeholder="Например, Галина" required>
+        </div>
+
+        <div class="input-group">
+          <label>Отчество</label>
+          <input type="text" id="teacherPatronymic" placeholder="Например, Сергеевна" required>
+        </div>
+
+        <div class="input-group">
+          <label>Основной предмет</label>
+          <select id="teacherSubject" required>
+            <option value="Математика">📐 Математика</option>
+            <option value="Русский язык">✍️ Русский язык</option>
+            <option value="Английский язык">🇬🇧 Английский язык</option>
+            <option value="Физика">⚡ Физика</option>
+            <option value="География">🗺️ География</option>
+            <option value="Биология">🧬 Биология</option>
+            <option value="История">🏛️ История</option>
+            <option value="Олимпиаданая Математика">📚Олимпиадная Математика</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Придумай пароль для входа</label>
+          <input type="password" id="teacherPassword" placeholder="Минимум 4 символа" required>
+        </div>
+
+        <button type="submit" class="teacher-submit-btn">Зарегистрироваться 🚀</button>
+      </form>
+
+      <div id="teacherMsg" class="teacher-msg"></div>
+    </div>
+  </section>
+
+  <script>
+    function handleTeacherReg(event) {
+      event.preventDefault();
+
+      const surname = document.getElementById('teacherSurname').value.trim();
+      const name = document.getElementById('teacherName').value.trim();
+      const patronymic = document.getElementById('teacherPatronymic').value.trim();
+      const subject = document.getElementById('teacherSubject').value;
+      const password = document.getElementById('teacherPassword').value.trim();
+      const msgBox = document.getElementById('teacherMsg');
+
+      if (password.length < 4) {
+        msgBox.style.color = '#ef4444';
+        msgBox.textContent = '⚠️ Пароль должен быть не короче 4 символов!';
+        return;
+      }
+
+      // Сохраняем профиль учителя с раздельными ФИО
+      const teacherProfile = {
+        role: 'teacher',
+        surname: surname,
+        name: name,
+        patronymic: patronymic,
+        fullName: `${surname} ${name} ${patronymic}`, // Полное ФИО для списков
+        shortGreeting: `${name} ${patronymic}`,       // Имя Отчество для обращения
+        mainSubject: subject,
+        password: password,
+        classes: []
+      };
+
+      localStorage.setItem('dogonyai_teacher', JSON.stringify(teacherProfile));
+
+      msgBox.style.color = '#10b981';
+      msgBox.textContent = `✅ Здравствуйте, ${name} ${patronymic}! Открываем мастерскую...`;
+
+      setTimeout(() => {
+        window.location.href = 'index6.html';
+      }, 1500);
+    }
+  </script>
+
+</body>
+</html>

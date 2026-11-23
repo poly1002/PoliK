@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Догоняй — Мой класс</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 80px 15px 95px 15px;
+      background-color: #f3f4f6;
+      font-family: sans-serif;
+      color: #1f2937;
+    }
+
+    /* Верхняя шапка */
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 65px;
+      background-color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      box-sizing: border-box;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      color: #2563eb;
+    }
+
+    .student-badge {
+      background-color: #eff6ff;
+      color: #2563eb;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 12px;
+    }
+
+    .container {
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    /* Карточка входа по коду */
+    .join-card {
+      background-color: #ffffff;
+      border-radius: 24px;
+      padding: 25px;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+      margin-bottom: 22px;
+    }
+
+    .join-card h2 {
+      margin: 0 0 8px 0;
+      font-size: 20px;
+    }
+
+    .join-card p {
+      margin: 0 0 16px 0;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .join-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .join-row input {
+      flex: 1;
+      min-width: 0;
+      padding: 13px 15px;
+      border: 2px solid #e5e7eb;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      outline: none;
+    }
+
+    .join-row input:focus {
+      border-color: #2563eb;
+    }
+
+    .join-btn {
+      padding: 0 20px;
+      background-color: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .join-msg {
+      margin-top: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      display: none;
+      padding: 10px 14px;
+      border-radius: 12px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 12px 5px;
+    }
+
+    /* Карточка класса, в который вступил ученик */
+    .joined-class-card {
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      color: #ffffff;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 12px;
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .joined-class-info h3 {
+      margin: 0 0 5px 0;
+      font-size: 19px;
+    }
+
+    .joined-class-info span {
+      font-size: 13px;
+      opacity: 0.9;
+      display: block;
+    }
+
+    .empty-box {
+      text-align: center;
+      color: #9ca3af;
+      padding: 30px 15px;
+      background-color: #ffffff;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    /* Нижняя панель навигации ученика */
+    .polik-bottom-bar {
+      position: fixed !important;
+      top: calc(100vh - 75px) !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      width: 95% !important;
+      max-width: 650px !important;
+      height: 56px !important;
+      background-color: #ffffff !important;
+      display: flex !important;
+      justify-content: space-around !important;
+      align-items: center !important;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12) !important;
+      border-radius: 18px !important;
+      z-index: 9999 !important;
+      padding: 4px 8px !important;
+      box-sizing: border-box !important;
+    }
+
+    .polik-tab {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-decoration: none !important;
+
+color: #6b7280 !important;
+      flex: 1 !important;
+      height: 100% !important;
+      border-radius: 14px !important;
+    }
+
+    .polik-icon {
+      font-size: 17px !important;
+      margin-bottom: 2px !important;
+    }
+
+    .polik-label {
+      font-size: 10px !important;
+      font-weight: 600 !important;
+    }
+
+    .polik-tab.active {
+      background-color: #eff6ff !important;
+      color: #2563eb !important;
+    }
+ /* Логотип с анимированным синим огоньком */
+    .logo {
+      font-size: 23px;
+      font-weight: 800;
+      color: #111827;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-flame {
+      display: inline-block;
+      width: 18px;
+      height: 22px;
+      margin: 0 2px;
+      transform-origin: bottom center;
+      animation: flameFlicker 1.8s infinite alternate ease-in-out;
+    }
+
+    @keyframes flameFlicker {
+      0% {
+        transform: scale(1) rotate(-3deg);
+        filter: drop-shadow(0 0 4px rgba(37, 99, 235, 0.4));
+      }
+      50% {
+        transform: scale(1.08, 0.96) rotate(2deg);
+        filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.7));
+      }
+      100% {
+        transform: scale(0.97, 1.06) rotate(-2deg);
+        filter: drop-shadow(0 0 5px rgba(37, 99, 235, 0.5));
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+    <a href="index.html" class="logo">
+      Д<svg class="logo-flame" viewBox="0 0 24 28" fill="none" xmlns="http://w3.org">
+        <path d="M12.5 1C12.5 1 19 6.5 19 13.5C19 18.5 15.8 22 12 22C8.2 22 5 18.5 5 13.5C5 10.5 6.8 7.5 8.5 6C8.5 6 8.2 9.5 10.5 10.5C10.5 10.5 9.5 5.5 12.5 1Z" fill="#2563eb"/>
+        <path d="M12 11C12 11 15 13.5 15 16.5C15 18.5 13.7 20 12 20C10.3 20 9 18.5 9 16.5C9 14.5 10.5 12.5 12 11Z" fill="#93c5fd"/>
+      </svg>гоняй
+    </a>
+
+      
+</div>
+
+  <div class="container">
+    <div class="join-card">
+      <h2>🔑  Найти свой класс</h2>
+      <p>Введи код класса от учителя (например, DOG-123), чтобы подключиться:</p>
+      
+      <div class="join-row">
+        <input type="text" id="classCodeInput" placeholder="DOG-000" maxlength="8">
+        <button class="join-btn" onclick="joinClassByCode()">Вступить</button>
+      </div>
+
+      <div id="joinStatusMsg" class="join-msg"></div>
+    </div>
+
+    <h3 class="section-title">Мои классы</h3>
+    <div id="studentJoinedClasses"></div>
+  </div>
+
+  <!-- Нижняя панель ученика (поменяй href на свои имена файлов, если отличаются) -->
+  <div class="polik-bottom-bar">
+    <a href="главная_index.html" class="polik-tab">
+      <span class="polik-icon">🏠 </span>
+      <span class="polik-label">Главная</span>
+    </a>
+    <a href="index2.html" class="polik-tab">
+      <span class="polik-icon">💡 </span>
+      <span class="polik-label">Лайфхаки</span>
+    </a>
+    <a href="class.html" class="polik-tab active">
+      <span class="polik-icon">👥 </span>
+      <span class="polik-label">Класс</span>
+    </a>
+    <a href="tasks.html" class="polik-tab">
+      <span class="polik-icon">📝 </span>
+      <span class="polik-label">Задания</span>
+    </a>
+    <a href="index5.html" class="polik-tab">
+      <span class="polik-icon">⭐ </span>
+      <span class="polik-label">Ещё</span>
+    </a>
+  </div>
+  <script>
+    // Определяем имя и фамилию текущего ученика из памяти браузера
+    const sName = localStorage.getItem('student_name') || 'Полина';
+    const sSurname = localStorage.getItem('student_surname') || 'Карпич';
+    const currentStudentFull = `${sName.trim()} ${sSurname.trim()}`;
+
+    document.getElementById('topStudentName').textContent = `👤 ${sName}`;
+
+    // Функция вступления в класс по коду от учителя
+    function joinClassByCode() {
+      const input = document.getElementById('classCodeInput');
+      const msgBox = document.getElementById('joinStatusMsg');
+      const enteredCode = input.value.trim().toUpperCase();
+
+      if (!enteredCode) {
+        showMsg('❌ Введи код класса!', '#fee2e2', '#ef4444');
+        return;
+      }
+
+      // Загружаем данные учителя, где хранятся созданные им классы
+      let teacherData = JSON.parse(localStorage.getItem('dogonyai_teacher')) || {};
+      let classes = teacherData.classes || [];
+
+      // Ищем класс с таким кодом
+      const foundClass = classes.find(cls => cls.code.toUpperCase() === enteredCode);
+
+      if (!foundClass) {
+        showMsg('❌ Класс с таким кодом не найден. Проверь буквы и цифры!', '#fee2e2', '#ef4444');
+        return;
+      }
+
+      if (!Array.isArray(foundClass.students)) foundClass.students = [];
+
+      // Проверяем, не состоит ли ученик уже в этом классе
+      const alreadyIn = foundClass.students.some(
+        st => st.name.toLowerCase() === currentStudentFull.toLowerCase()
+      );
+
+      if (alreadyIn) {
+        showMsg(`ℹ️ Ты уже состоишь в классе «${foundClass.name}»!`, '#eff6ff', '#2563eb');
+        input.value = '';
+        return;
+      }
+
+      // Добавляем ученика в класс учителя
+      foundClass.students.push({
+        name: currentStudentFull,
+        score: 'Нет оценок'
+      });
+
+      // Сохраняем обновлённую базу — теперь учитель сразу увидит ученика у себя!
+      localStorage.setItem('dogonyai_teacher', JSON.stringify(teacherData));
+
+      showMsg(`✅ Ура! Ты вступил в класс «${foundClass.name}» (${foundClass.subject})!`, '#dcfce7', '#16a34a');
+      input.value = '';
+      renderMyClasses();
+    }
+
+    function showMsg(text, bgColor, textColor) {
+      const msgBox = document.getElementById('joinStatusMsg');
+      msgBox.textContent = text;
+      msgBox.style.backgroundColor = bgColor;
+      msgBox.style.color = textColor;
+      msgBox.style.display = 'block';
+    }
+
+    // Отображаем все классы, в которых состоит этот ученик
+    function renderMyClasses() {
+      const listEl = document.getElementById('studentJoinedClasses');
+      let teacherData = JSON.parse(localStorage.getItem('dogonyai_teacher')) || {};
+      let classes = teacherData.classes || [];
+
+      // Фильтруем только те классы, где есть наш ученик
+      const myClasses = classes.filter(cls =>
+        Array.isArray(cls.students) &&
+        cls.students.some(st => st.name.toLowerCase() === currentStudentFull.toLowerCase())
+      );
+
+      listEl.innerHTML = '';
+
+      if (myClasses.length === 0) {
+        listEl.innerHTML = '<div class="empty-box">Ты пока не вступил ни в один класс.<br>Попроси код у учителя и введи его выше!</div>';
+        return;
+      }
+
+      const teacherFullName = teacherData.name && teacherData.patronymic
+        ? `${teacherData.name} ${teacherData.patronymic}`
+        : 'Учитель';
+
+      myClasses.forEach(cls => {
+        listEl.innerHTML += `
+          <div class="joined-class-card">
+            <div class="joined-class-info">
+              <h3>${cls.name} — ${cls.subject}</h3>
+              <span>👨‍🏫 Преподаватель: ${teacherFullName}</span>
+            </div>
+            <div style="font-size: 24px;">🎓</div>
+          </div>
+        `;
+      });
+    }
+
+    renderMyClasses();
+  </script>
+
+  <!-- СЮДА ВСТАВЬ СВОЙ СКРИПТ ОГОНЬКА -->
+
+</body>
+</html>
