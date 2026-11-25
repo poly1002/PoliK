@@ -150,27 +150,25 @@
       border-radius: 20px;
       font-size: 14px;
     }
-
-    /* Нижняя панель навигации ученика */
-    .polik-bottom-bar {
+.polik-bottom-bar {
       position: fixed !important;
-      top: calc(100vh - 75px) !important;
+      top: auto !important;
+      bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
       left: 50% !important;
       transform: translateX(-50%) !important;
-      width: 95% !important;
+      width: 94% !important;
       max-width: 650px !important;
-      height: 56px !important;
-      background-color: #ffffff !important;
+      height: 58px !important;
+      background: #ffffff !important;
       display: flex !important;
       justify-content: space-around !important;
       align-items: center !important;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12) !important;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.14) !important;
       border-radius: 18px !important;
       z-index: 9999 !important;
       padding: 4px 8px !important;
       box-sizing: border-box !important;
     }
-
     .polik-tab {
       display: flex !important;
       flex-direction: column !important;
@@ -264,28 +262,15 @@ color: #6b7280 !important;
   </div>
 
   <!-- Нижняя панель ученика (поменяй href на свои имена файлов, если отличаются) -->
-  <div class="polik-bottom-bar">
-    <a href="главная_index.html" class="polik-tab">
-      <span class="polik-icon">🏠 </span>
-      <span class="polik-label">Главная</span>
-    </a>
-    <a href="index2.html" class="polik-tab">
-      <span class="polik-icon">💡 </span>
-      <span class="polik-label">Лайфхаки</span>
-    </a>
-    <a href="class.html" class="polik-tab active">
-      <span class="polik-icon">👥 </span>
-      <span class="polik-label">Класс</span>
-    </a>
-    <a href="tasks.html" class="polik-tab">
-      <span class="polik-icon">📝 </span>
-      <span class="polik-label">Задания</span>
-    </a>
-    <a href="index5.html" class="polik-tab">
-      <span class="polik-icon">⭐ </span>
-      <span class="polik-label">Ещё</span>
-    </a>
-  </div>
+<div class="polik-nav-bar">
+  <a href="index.html" class="black-back-btn">← Выход</a>
+  <a href="index1.html" class="polik-tab"><span class="polik-icon">🏠</span><span class="polik-label">Главная</span></a>
+  <a href="index2.html" class="polik-tab"><span class="polik-icon">💡</span><span class="polik-label">Лайфхаки</span></a>
+  <a href="index3.html" class="polik-tab"><span class="polik-icon">👥</span><span class="polik-label">Класс</span></a>
+  <a href="index4.html" class="polik-tab active"><span class="polik-icon">📝</span><span class="polik-label">Задания</span></a>
+  <a href="index5.html" class="polik-tab"><span class="polik-icon">⭐</span><span class="polik-label">Ещё</span></a>
+</div>
+<link rel="stylesheet" href="nav.css">
   <script>
     // Определяем имя и фамилию текущего ученика из памяти браузера
     const sName = localStorage.getItem('student_name') || 'Полина';

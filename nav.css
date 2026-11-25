@@ -1,0 +1,63 @@
+/* Единая верхняя панель навигации с чёрной кнопкой */
+.polik-nav-bar {
+  position: fixed !important;
+  top: 12px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 94% !important;
+  max-width: 680px !important;
+  height: 58px !important;
+  background-color: #ffffff !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 5px 10px !important;
+  border-radius: 18px !important;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1) !important;
+  box-sizing: border-box !important;
+  z-index: 99999 !important;
+  font-family: sans-serif !important;
+}
+
+.black-back-btn {
+  background-color: #111827 !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  padding: 9px 14px !important;
+  border-radius: 12px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+.polik-tab {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  color: #6b7280 !important;
+  flex: 1 !important;
+  height: 100% !important;
+  border-radius: 13px !important;
+}
+
+.polik-icon {
+  font-size: 16px !important;
+  line-height: 1 !important;
+  margin-bottom: 3px !important;
+}
+
+.polik-label {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+}
+
+.polik-tab.active {
+  background-color: #eff6ff !important;
+  color: #2563eb !important;
+}
